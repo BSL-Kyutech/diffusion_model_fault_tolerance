@@ -28,7 +28,7 @@ from tenpa_msgs.msg import Pressure12
 #         publisher_list[i].publish(msg)
 
 class PressurePublisher(Node):
-    def __init__(self,node_name:str = "pressure_ publisher", base_topic:str="/tenpa/pressure/desired",
+    def __init__(self,node_name:str = "pressure_publisher", base_topic:str="/tenpa/pressure/desired",
                  num_layers: int =4, per_layer_channels: int = 10, qos_depth: int = 10,) -> None:
         super().__init__(node_name)
         self.num_layers = num_layers
