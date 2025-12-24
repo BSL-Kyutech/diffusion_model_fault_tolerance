@@ -20,7 +20,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'control = diffusion_model_fault_tolerance.control:main',
+            'gen_circle = diffusion_model_fault_tolerance.experiment.gen_circle:main',
         ],
     },
 )
