@@ -40,8 +40,8 @@ def main():
     node = Node("gen_circle_experiment")
     
     # Pub&Sub
-    pub = PressurePublisher(node = node)
-    mocap = MocapSubscriber(node = node)
+    pub = PressurePublisher()
+    mocap = MocapSubscriber()
     
     # モデルと目標軌道の提示
     diffusion_model = Generator()
