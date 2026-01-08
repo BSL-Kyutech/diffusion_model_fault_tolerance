@@ -48,7 +48,7 @@ def main():
     # パスの設定（ROS2のinstall環境でも確実）
     PKG_NAME = "diffusion_model_fault_tolerance"  # ← package.xml の <name> と一致させる
 
-    model_dir = Path(get_package_share_directory(PKG_NAME)) / "mode"
+    model_dir = Path(get_package_share_directory(PKG_NAME)) / "model"
     print(f"model_dir = {model_dir}")
 
     # モデルと目標軌道の提示
