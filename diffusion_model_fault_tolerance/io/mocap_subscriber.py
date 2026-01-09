@@ -14,7 +14,7 @@ class MocapSubscriber(Node):
         self.history.append(msg)
         self.received = True
     
-    def has_recieved(self) -> bool:
+    def has_received(self) -> bool:
         return self.received
     
     def consume_latest(self) -> PointStamped | None:

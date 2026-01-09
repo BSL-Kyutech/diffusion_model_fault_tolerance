@@ -15,15 +15,23 @@ from diffusion_model_fault_tolerance.io.mocap_subscriber import MocapSubscriber
 from ament_index_python.packages import get_package_share_directory
 
 def pressure40_to_list(output) -> List[int]:
-    # diffusion_model.genの返り値を長さ40のlist[int]に整形する．
-    arr = np.asarray(output)
-    # arrを(40,)の形に整形
+    #output(torch.Tensor)を長さ40のlist[int]に変換する．
+    arr = output.detach().cpu().numpy()
     arr = arr.reshape(-1)
     if arr.size != 40:
         raise ValueError(f"Expected 40 values from diffusion output, got {arr.size}")
-    # 圧力コマンドとして整数化
     arr = np.clip(arr, 0, 255).astype(np.int32)
     return arr.tolist()
+
+    # # diffusion_model.genの返り値を長さ40のlist[int]に整形する．
+    # arr = np.asarray(output)
+    # # arrを(40,)の形に整形
+    # arr = arr.reshape(-1)
+    # if arr.size != 40:
+    #     raise ValueError(f"Expected 40 values from diffusion output, got {arr.size}")
+    # # 圧力コマンドとして整数化
+    # arr = np.clip(arr, 0, 255).astype(np.int32)
+    # return arr.tolist()
 
 def interp40(a: Sequence[int], b: Sequence[int], resolution: int) -> List[List[int]]:
     # aからbを線形補完した列を40ch列で返す．
@@ -55,21 +63,33 @@ def main():
     diffusion_model = Diffuser()
     diffusion_model.load_dir(model_dir)
     X, Y, Z = generate_circle()
-    
+    print(f"x, y, z lengths: {len(X)}, {len(Y)}, {len(Z)}")
     # 推論の実行
     output_list:List[List[int]] = []
     for x, y, z in zip(X, Y, Z):
-        output_list = []
         output = diffusion_model.gen({
         '/mocap/rigidbody1/pos0':x,
         '/mocap/rigidbody1/pos1':y,
         '/mocap/rigidbody1/pos2':z
         },{
-            # 1層目の出力値を固定
-            '/tenpa/pressure/desired0':150,
+            # # 1層目の出力値を固定
+            # '/tenpa/pressure/desired0/pressure0':150,
+            # '/tenpa/pressure/desired0/pressure1':150,
+            # '/tenpa/pressure/desired0/pressure2':150,
+            # '/tenpa/pressure/desired0/pressure3':150,
+            # '/tenpa/pressure/desired0/pressure4':150,
+            # '/tenpa/pressure/desired0/pressure5':150,
+            # '/tenpa/pressure/desired0/pressure6':150,
+            # '/tenpa/pressure/desired0/pressure7':150,
+            # '/tenpa/pressure/desired0/pressure8':150,
+            # '/tenpa/pressure/desired0/pressure9':150,
         })
+        print(f"output_shape: {output.shape}")
+        # outputを長さ40のlist[int]に変換
+        output = pressure40_to_list(output)
         output_list.append(output)
-        
+    print(f"output_list_shape: {len(output_list)}")   
+    
     # 実験の実行(publish & mocap受信)
     sleep_time = 0.005
     first_wait = 2.0
