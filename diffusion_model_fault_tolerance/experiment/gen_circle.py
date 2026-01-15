@@ -70,23 +70,24 @@ def main():
         output = diffusion_model.gen({
         '/mocap/rigidbody1/pos0':x,
         '/mocap/rigidbody1/pos1':y,
-        '/mocap/rigidbody1/pos2':z
+        '/mocap/rigidbody1/pos2':z,
         },{
-        },initial_control_input={'/tenpa/pressure/desired0/pressure0':150,
-                                 '/tenpa/pressure/desired0/pressure1':150,
-                                 '/tenpa/pressure/desired0/pressure2':150,
-                                 '/tenpa/pressure/desired0/pressure3':150,
-                                 '/tenpa/pressure/desired0/pressure4':150,
-                                 '/tenpa/pressure/desired0/pressure5':150,
-                                 '/tenpa/pressure/desired0/pressure6':150,
-                                 '/tenpa/pressure/desired0/pressure7':150,
-                                 '/tenpa/pressure/desired0/pressure8':150,
-                                 '/tenpa/pressure/desired0/pressure9':150,})
-        print(f"output_shape: {output.shape}")
+        },initial_control_input={'/tenpa/pressure/desired0/pressure0':200,
+                                 '/tenpa/pressure/desired0/pressure1':200,
+                                 '/tenpa/pressure/desired0/pressure2':200,
+                                 '/tenpa/pressure/desired0/pressure3':200,
+                                 '/tenpa/pressure/desired0/pressure4':200,
+                                 '/tenpa/pressure/desired0/pressure5':200,
+                                 '/tenpa/pressure/desired0/pressure6':200,
+                                 '/tenpa/pressure/desired0/pressure7':200,
+                                 '/tenpa/pressure/desired0/pressure8':200,
+                                 '/tenpa/pressure/desired0/pressure9':200,
+                                 })
+        print(f"output: {output}")
         # outputを長さ40のlist[int]に変換
         output = pressure40_to_list(output)
         output_list.append(output)
-    print(f"output_list_shape: {len(output_list)}")   
+    # print(f"output_list_shape: {len(output_list)}")   
     
     # 実験の実行(publish & mocap受信)
     sleep_time = 0.005
@@ -116,7 +117,7 @@ def main():
     for i,u40 in enumerate(output_list):
         
         # 目標点をiとしてpublish
-        pub.publish40(u40)
+        # pub.publish40(u40)
         
         # 最初だけ少し待つ
         time.sleep(first_wait if i == 0 else sleep_time)

@@ -18,6 +18,6 @@ for i in range(3):
 #    main_target_columns.append(column)
 
 model = Diffuser(actuator_columns, main_target_columns, actuator_max_abs_values)
-train_df = pd.read_csv("train.csv")
+train_df = pd.read_csv("train.csv","test.csv")
 model.train(train_df)
 model.save_dir('model')
