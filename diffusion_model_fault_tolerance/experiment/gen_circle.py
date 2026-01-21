@@ -72,16 +72,7 @@ def main():
         '/mocap/rigidbody1/pos1':y,
         '/mocap/rigidbody1/pos2':z,
         },{
-        },initial_control_input={'/tenpa/pressure/desired0/pressure0':200,
-                                 '/tenpa/pressure/desired0/pressure1':200,
-                                 '/tenpa/pressure/desired0/pressure2':200,
-                                 '/tenpa/pressure/desired0/pressure3':200,
-                                 '/tenpa/pressure/desired0/pressure4':200,
-                                 '/tenpa/pressure/desired0/pressure5':200,
-                                 '/tenpa/pressure/desired0/pressure6':200,
-                                 '/tenpa/pressure/desired0/pressure7':200,
-                                 '/tenpa/pressure/desired0/pressure8':200,
-                                 '/tenpa/pressure/desired0/pressure9':200,
+        },initial_control_input={
                                  })
         print(f"output: {output}")
         # outputを長さ40のlist[int]に変換
